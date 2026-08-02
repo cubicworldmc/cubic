@@ -21,7 +21,7 @@ let
         passAsFile = [ "envFileContent" ];
       }
       ''
-        cp $envFileContentPath $out
+        ${pkgs.coreutils}/bin/cp $envFileContentPath $out
       '';
 
   envFile = "${config.services.minecraft-servers.dataDir}/vanilla-environmentFile";
@@ -48,7 +48,7 @@ in
     after = [
       "run-agenix.d.mount"
     ];
-    description = "setup an environment file for vanilla server";
+    description = "setup for vanilla's environment file";
     enable = true;
     serviceConfig = {
       Type = "oneshot";
@@ -60,7 +60,7 @@ in
             ${pkgs.coreutils}/bin/cp "${envFilePlaceholder}" "${envFile}"
             ${pkgs.coreutils}/bin/chown ${owner}:${group} "${envFile}"
             ${pkgs.coreutils}/bin/chmod 600 "${envFile}"
-            secret=$(cat "${config.age.secrets.cubic-vanilla-port.path}")
+            secret=$(${pkgs.coreutils}/bin/cat "${config.age.secrets.cubic-vanilla-port.path}")
             ${pkgs.gnused}/bin/sed -i "s#@CUBIC_VANILLA_PORT@#$secret#" "${envFile}"
           '';
         }
@@ -76,6 +76,7 @@ in
       enable = true;
       user = owner;
       group = group;
+      package = pkgs.paperServers.paper-26_2;
       jvmOpts = "-Xmx2G";
       serverProperties = {
         server-port = "@CUBIC_VANILLA_PORT@";

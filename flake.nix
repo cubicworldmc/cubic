@@ -5,7 +5,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     nix-minecraft.url = "github:cubicworldmc/nix-minecraft";
+    nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
     agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
+    microvm.url = "github:microvm-nix/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -15,6 +19,7 @@
       flake-utils,
       nix-minecraft,
       agenix,
+      microvm,
     }:
     let
       culib = isTest: (import ./lib) isTest;
@@ -23,7 +28,7 @@
         conf
         // {
           specialArgs = {
-            inherit nix-minecraft agenix;
+            inherit nix-minecraft agenix microvm;
             culib = culib false;
           };
         };
@@ -32,6 +37,16 @@
       nixosConfigurations = {
         cubic = nixpkgs.lib.nixosSystem (buildArgs {
           modules = [ ./hosts/cubic ];
+        });
+        cubic-vm = nixpkgs.lib.nixosSystem ({
+          specialArgs = {
+            inherit nix-minecraft agenix microvm;
+            culib = culib true;
+          };
+          modules = [
+            ./hosts/cubic
+            ./test/vm.nix
+          ];
         });
       };
     }

@@ -9,16 +9,6 @@ let
 
   secretValues = import ../secrets/test/values.nix;
 
-  inStore =
-    name: pkgs:
-    pkgs.runCommand "put-test-${name}-into-store" {
-      key = builtins.readFile ./${name};
-      passAsFile = [ "key" ];
-    } "cp $keyPath $out";
-
-  publicInStore = inStore "id_ed25519.pub";
-  privateInStore = inStore "id_ed25519";
-
 in
 pkgs.testers.runNixOSTest {
   name = "ultimate-test";
@@ -33,22 +23,8 @@ pkgs.testers.runNixOSTest {
     cubic = { pkgs, ... }: {
       imports = [
         ../hosts/cubic
+        ./upload_keys_module.nix
       ];
-
-      age.identityPaths = [
-        (privateInStore pkgs)
-      ];
-
-      environment.etc = {
-        "ssh/ssh_host_ed25519_key" = {
-          source = (privateInStore pkgs);
-          mode = "0600";
-        };
-        "ssh/ssh_host_ed25519_key.pub" = {
-          source = (publicInStore pkgs);
-          mode = "0644";
-        };
-      };
     };
   };
   testScript = { ... }: ''

@@ -22,11 +22,13 @@
 
   networking = {
     hostName = "cubic";
+    networkmanager.enable = true;
     firewall = {
       enable = true;
       allowedTCPPorts = [
         22
         25565
+        25566
       ];
       allowedUDPPorts = [ 22 ];
     };
