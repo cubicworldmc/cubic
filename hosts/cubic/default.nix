@@ -1,0 +1,36 @@
+{
+  culib,
+  lib,
+  ...
+}:
+{
+  imports = [
+    ../../shared/default.nix
+    ../../services/vanilla.nix
+  ]
+  ++ (if culib.isTest then [ ] else [ ./hardware-configuration.nix ]);
+
+  boot.loader = lib.mkIf culib.isProd {
+    grub = {
+      enable = true;
+      useOSProber = true;
+      efiSupport = true;
+      device = "nodev";
+    };
+    efi.canTouchEfiVariables = true;
+  };
+
+  networking = {
+    hostName = "cubic";
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        22
+        25565
+      ];
+      allowedUDPPorts = [ 22 ];
+    };
+  };
+
+  system.stateVersion = "26.11";
+}
