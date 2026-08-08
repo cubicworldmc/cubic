@@ -1,29 +1,26 @@
-{
-  pkgs,
-  ...
-}:
-{
+{ pkgs, ... }: {
   imports = [
     ./minecraft.nix
   ];
 
-  config.services.cubic-minecraft-servers.servers.vanilla = {
+  config.services.cubic-minecraft-servers.servers.lobby = {
     ageFiles = [
-      "cubic-vanilla-port"
+      "cubic-lobby-port"
       "forwarding-secret"
     ];
   };
 
+  # TODO: use real lobby
   config.services.minecraft-servers = {
     enable = true;
     eula = true;
-    servers.vanilla = {
+    servers.lobby = {
       enable = true;
       package = pkgs.paperServers.paper-26_2;
       jvmOpts = "-Xmx2G";
       serverProperties = {
         online-mode = false;
-        server-port = "@cubicVanillaPort@";
+        server-port = "@cubicLobbyPort@";
       };
       symlinks = {
         "plugins/cwcore.jar" = "${pkgs.plugins.cwcore}/bukkit.jar";

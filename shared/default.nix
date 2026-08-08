@@ -10,8 +10,6 @@
     ./jenya705.nix
   ];
 
-  nixpkgs.overlays = [ nix-minecraft.overlay ];
-
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

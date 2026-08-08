@@ -12,5 +12,5 @@ FILES=$( (@nixInstantiate@ --json --eval -E "(let values = import $VALUES; in bu
 for FILE in $FILES
 do
   VALUE=$( (@nixInstantiate@ --json --eval -E "(let values = import $VALUES; in values.\"$FILE\")" | @jqBin@ -r .) || exit 1)
-  echo $VALUE | @agenix@ -e $FILE -i $IDENTITY
+  echo "$VALUE" | @agenix@ -e $FILE -i $IDENTITY
 done

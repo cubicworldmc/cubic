@@ -1,5 +1,18 @@
-isTest: {
+# TODO: allow nix's lib to be used here
+isTest: thisServer: rec {
+  inherit isTest thisServer;
   secretPath = secret: if isTest then ../secrets/test/${secret} else ../secrets/prod/${secret};
-  inherit isTest;
   isProd = !isTest;
+  serverIpSecret = server: if thisServer == server then "localhost-magic" else "${server}-ip";
+  serviceServers =
+    let
+      cubic = "cubic";
+    in
+    {
+      minecraft-server-vanilla = cubic;
+      minecraft-server-proxy = cubic;
+      minecraft-server-lobby = cubic;
+      mysql-server-cwcore = cubic;
+    };
+  serviceIpSecret = service: serverIpSecret serviceServers.${service};
 }

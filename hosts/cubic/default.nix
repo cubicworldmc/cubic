@@ -6,7 +6,11 @@
 {
   imports = [
     ../../shared/default.nix
+    ../../services/minecraft.nix
     ../../services/vanilla.nix
+    ../../services/proxy.nix
+    ../../services/lobby.nix
+    ../../services/mariadb.nix
   ]
   ++ (if culib.isTest then [ ] else [ ./hardware-configuration.nix ]);
 
@@ -28,7 +32,6 @@
       allowedTCPPorts = [
         22
         25565
-        25566
       ];
       allowedUDPPorts = [ 22 ];
     };

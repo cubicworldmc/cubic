@@ -22,49 +22,72 @@
       microvm,
     }:
     let
-      culib = isTest: (import ./lib) isTest;
-      buildArgs =
-        conf:
-        conf
+      culib = (import ./lib);
+
+      overlays = [
+        nix-minecraft.overlay
+        agenix.overlays.default
+        self.overlays.default
+      ];
+
+      deps = {
+        inherit nix-minecraft agenix microvm;
+      };
+
+      specialArgs =
+        isTest: thisServer:
+        deps
         // {
-          specialArgs = {
-            inherit nix-minecraft agenix microvm;
-            culib = culib false;
-          };
+          culib = culib isTest thisServer;
+        };
+
+      nixosConfigurationsModule =
+        { nixpkgs, ... }:
+        {
+          nixpkgs.overlays = overlays;
         };
     in
     {
       nixosConfigurations = {
-        cubic = nixpkgs.lib.nixosSystem (buildArgs {
-          modules = [ ./hosts/cubic ];
+        cubic = nixpkgs.lib.nixosSystem ({
+          modules = [
+            ./hosts/cubic
+            nixosConfigurationsModule
+          ];
+
+          specialArgs = specialArgs false "cubic";
         });
         cubic-vm = nixpkgs.lib.nixosSystem ({
-          specialArgs = {
-            inherit nix-minecraft agenix microvm;
-            culib = culib true;
-          };
+          specialArgs = specialArgs true "cubic";
+
           modules = [
             ./hosts/cubic
             ./test/vm.nix
+            nixosConfigurationsModule
           ];
         });
       };
+      overlays.default = final: prev: self.packages.${prev.stdenv.hostPlatform.system};
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
       let
         pkgs = (
           import nixpkgs {
-            inherit system;
-            overlays = [
-              agenix.overlays.default
-              nix-minecraft.overlays.default
-            ];
+            inherit system overlays;
           }
         );
       in
       {
-        packages.cu_update_secrets = pkgs.callPackage ./test/update_secrets.nix { };
+        packages = {
+          plugins = {
+            cwcore = pkgs.callPackage ./pkgs/cwcore.nix {
+              gradle = pkgs.gradle_9;
+            };
+          }
+          // ((import ./pkgs/luckperms.nix).allPkgs pkgs);
+          cu_update_secrets = pkgs.callPackage ./test/update_secrets.nix { };
+        };
         devShells.default = pkgs.mkShell {
           packages = [
             self.packages.${system}.cu_update_secrets
@@ -74,15 +97,12 @@
             echo cu_update_secrets is now available!
           '';
         };
-        checks.ultimate-test = (import ./test/test.nix) ({
-          inherit
-            self
-            nix-minecraft
-            agenix
-            pkgs
-            ;
-          culib = culib true;
-        });
+        checks.ultimate-test = (import ./test/test.nix) (
+          deps
+          // {
+            culib = culib true;
+          }
+        );
 
       }
     );

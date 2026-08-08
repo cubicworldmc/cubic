@@ -16,7 +16,7 @@ stdenv.mkDerivation {
   };
   dontUnpack = true;
   installPhase = ''
-    install -D $src ${placeholder "out"}/bin/cu_update_secrets
+    install -D $src $out/bin/cu_update_secrets
   '';
   meta.description = "updates test secrets based on values.nix";
 }

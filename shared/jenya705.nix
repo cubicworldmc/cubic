@@ -1,5 +1,5 @@
 # Just some configuration needed to look after the servers when needed
-{ ... }: {
+{ pkgs, ... }: {
   users.users.jenya705 = {
     isNormalUser = true;
     description = "jenya705";
@@ -16,6 +16,10 @@
     enable = true;
     defaultEditor = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    tmux
+  ];
 
   services.openssh = {
     enable = true;

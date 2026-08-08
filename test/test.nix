@@ -16,14 +16,15 @@ pkgs.testers.runNixOSTest {
     inherit pkgs;
     pkgsReadOnly = false;
     specialArgs = {
-      inherit agenix nix-minecraft culib;
+      inherit agenix nix-minecraft;
+      culib = culib "cubic";
     };
   };
   nodes = {
     cubic = { pkgs, ... }: {
       imports = [
         ../hosts/cubic
-        ./upload_keys_module.nix
+        ./test_module.nix
       ];
     };
   };
