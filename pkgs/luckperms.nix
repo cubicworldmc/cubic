@@ -11,16 +11,8 @@ rec {
       url = "https://download.luckperms.net/1658/velocity/LuckPerms-Velocity-5.5.71.jar";
       sha256 = "o6yS704p/Yek1wbckkRf2UbxyvHTNSbKGEIqYlVPoYo=";
     };
-  all = {
-    inherit bukkit velocity;
+  all = pkgs: {
+    bukkit = pkgs.callPackage bukkit { };
+    velocity = pkgs.callPackage velocity { };
   };
-  allPkgs =
-    pkgs:
-    all
-    |> pkgs.lib.mapAttrs' (
-      name: value: {
-        name = "luckperms-${name}";
-        value = pkgs.callPackage value { };
-      }
-    );
 }

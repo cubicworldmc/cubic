@@ -55,7 +55,7 @@ in
         "plugins/cwcore/key.pem" = secretPath "cwcore-ssl-key";
         "plugins/cwcore/clcert.pem" = secretPath "cwcore-ssl-client-cert";
         "plugins/cwcore/vanilla.key" = secretPath "cwcore-vanilla-list-key";
-        "plugins/luckperms.jar" = pkgs.plugins.luckperms-velocity;
+        "plugins/luckperms.jar" = pkgs.plugins.luckperms.velocity;
       };
       files = {
         "plugins/cwcore/config.yml" = {

@@ -19,6 +19,10 @@ with lib;
                 type = types.listOf types.str;
                 default = [ ];
               };
+
+              additionalEnvVars = mkOption {
+                type = types.attrsOf types.str;
+              };
             };
           }
         )
@@ -31,15 +35,18 @@ with lib;
       minecraft-servers-conf = name: config.services.minecraft-servers.servers.${name};
 
       envFilePlaceholderContent =
-        ageFiles:
-        ageFiles
-        |> builtins.map (
-          file:
-          let
-            camel = strings.toCamelCase file;
-          in
-          "${camel}=@${camel}@"
+        server:
+        (
+          server.ageFiles
+          |> builtins.map (
+            file:
+            let
+              camel = strings.toCamelCase file;
+            in
+            "${camel}=@${camel}@"
+          )
         )
+        ++ (server.additionalEnvVars |> mapAttrsToList (name: var: "${name}=${var}"))
         |> builtins.concatStringsSep "\n";
 
       secretName = name: file: "minecraft-server-${name}-${file}";
@@ -47,7 +54,7 @@ with lib;
       envFilePlaceholder =
         name:
         pkgs.runCommand "minecraft-server-${name}-env-file" {
-          cont = envFilePlaceholderContent config.services.cubic-minecraft-servers.servers.${name}.ageFiles;
+          cont = envFilePlaceholderContent config.services.cubic-minecraft-servers.servers.${name};
           passAsFile = [ "cont" ];
         } "${pkgs.coreutils}/bin/cp $contPath $out";
 

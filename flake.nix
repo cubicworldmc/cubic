@@ -79,13 +79,7 @@
         );
       in
       {
-        packages = {
-          plugins = {
-            cwcore = pkgs.callPackage ./pkgs/cwcore.nix {
-              gradle = pkgs.gradle_9;
-            };
-          }
-          // ((import ./pkgs/luckperms.nix).allPkgs pkgs);
+        packages = ((import pkgs/all-packages.nix) { inherit pkgs; }) // {
           cu_update_secrets = pkgs.callPackage ./test/update_secrets.nix { };
         };
         devShells.default = pkgs.mkShell {

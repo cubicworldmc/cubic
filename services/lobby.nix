@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   imports = [
     ./minecraft.nix
   ];
@@ -8,34 +8,24 @@
       "cubic-lobby-port"
       "forwarding-secret"
     ];
+    additionalEnvVars = {
+      "CUBIC_LOBBY_WORLD_PATH" = "${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby";
+      "CUBIC_LOBBY_SERVER_PORT" = "@cubicLobbyPort@";
+      "CUBIC_LOBBY_SECRET_PATH" = config.age.secrets.minecraft-server-lobby-forwarding-secret.path;
+    };
   };
 
-  # TODO: use real lobby
   config.services.minecraft-servers = {
     enable = true;
     eula = true;
     servers.lobby = {
       enable = true;
-      package = pkgs.paperServers.paper-26_2;
-      jvmOpts = "-Xmx2G";
-      serverProperties = {
-        online-mode = false;
-        server-port = "@cubicLobbyPort@";
-      };
-      symlinks = {
-        "plugins/cwcore.jar" = "${pkgs.plugins.cwcore}/bukkit.jar";
-      };
-      files = {
-        "config/paper-global.yml" = {
-          format = pkgs.formats.yaml { };
-          value = {
-            proxies.velocity = {
-              enabled = true;
-              secret = "@forwardingSecret@";
-            };
-          };
-        };
-      };
+      package = pkgs.cubic-lobby;
+      jvmOpts = "-Xmx1G";
+      extraStartPre = ''
+        ${pkgs.coreutils}/bin/mkdir -p ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
+        ${pkgs.coreutils}/bin/cp -r ${pkgs.cubic-lobby}/worlds/lobby ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
+      '';
     };
   };
 }
