@@ -24,6 +24,7 @@ in
       (culib.serviceIpSecret "minecraft-server-limbo")
       "mysql-cwcore-user-pass"
       "mysql-cubicauth-user-pass"
+      "mysql-luckperms-user-pass"
     ];
   };
 
@@ -74,6 +75,12 @@ in
         "plugins/cubicauth/config.yml" = {
           format = pkgs.formats.yaml { };
           value = (import ./cubicauth-config.nix) { inherit lib culib; };
+        };
+        "plugins/luckperms/config.yml" = {
+          format = pkgs.formats.yaml { };
+          value = (import ./luckperms-config.nix) { inherit lib culib; } // {
+            broadcast-received-log-entries = true;
+          };
         };
       };
     };

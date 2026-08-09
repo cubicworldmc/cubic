@@ -7,7 +7,7 @@
   imports = [
     ../../shared/default.nix
     ../../services/minecraft.nix
-    ../../services/vanilla.nix
+    ../../services/vanilla
     ../../services/proxy
     ../../services/lobby.nix
     ../../services/limbo.nix

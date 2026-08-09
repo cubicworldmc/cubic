@@ -71,6 +71,7 @@
               stay = 100;
               fadeOut = 10;
             };
+            # info forwarding itself is irrelevant, just that the player has joined from the proxy.
             infoForwarding = {
               type = "MODERN";
               secret = "@forwardingSecret@";
@@ -93,7 +94,6 @@
               maxPacketBytesRate = 2048;
             };
           };
-
         };
       };
     };

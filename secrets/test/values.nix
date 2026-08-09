@@ -13,4 +13,5 @@
   "cwcore-vanilla-list-key.age" = builtins.readFile ./cwcore-vanilla-list-key;
   "mysql-cwcore-user-pass.age" = "mysql-cwcore-user-pass-32132131231";
   "mysql-cubicauth-user-pass.age" = "mysql-cubicauth-user-pass-39999";
+  "mysql-luckperms-user-pass.age" = "mysql-luckperms-user-pass-9099";
 }
