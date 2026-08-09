@@ -14,6 +14,7 @@
       "cubic-vanilla-port"
       "forwarding-secret"
       "mysql-luckperms-user-pass"
+      (culib.serviceIpSecret "mysql-server-luckperms")
     ];
   };
 
@@ -37,7 +38,7 @@
           format = pkgs.formats.yaml { };
           value = (import ./paper-global.nix) { };
         };
-        "config/luckperms/config.yml" = {
+        "plugins/LuckPerms/config.yml" = {
           format = pkgs.formats.yaml { };
           value = (import ../proxy/luckperms-config.nix) { inherit lib culib; };
         };

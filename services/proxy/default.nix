@@ -22,6 +22,9 @@ in
       (culib.serviceIpSecret "minecraft-server-vanilla")
       (culib.serviceIpSecret "minecraft-server-lobby")
       (culib.serviceIpSecret "minecraft-server-limbo")
+      (culib.serviceIpSecret "mysql-server-luckperms")
+      (culib.serviceIpSecret "mysql-server-cwcore")
+      (culib.serviceIpSecret "mysql-server-cubicauth")
       "mysql-cwcore-user-pass"
       "mysql-cubicauth-user-pass"
       "mysql-luckperms-user-pass"

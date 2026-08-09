@@ -15,6 +15,7 @@ isTest: thisServer: rec {
       minecraft-server-limbo = cubic;
       mysql-server-cwcore = cubic;
       mysql-server-cubicauth = cubic;
+      mysql-server-luckperms = cubic;
     };
   serviceIpSecret = service: serverIpSecret serviceServers.${service};
 }

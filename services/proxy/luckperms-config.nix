@@ -2,7 +2,7 @@
 {
   storage-method = "mariadb";
   data = {
-    address = "@${lib.strings.toCamelCase (culib.serviceIpSecret "mysql-server-cwcore")}@:3306";
+    address = "@${lib.strings.toCamelCase (culib.serviceIpSecret "mysql-server-luckperms")}@:3306";
     database = "luckperms";
     username = "luckperms";
     password = "@mysqlLuckpermsUserPass@";
