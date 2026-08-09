@@ -8,7 +8,10 @@
 let
   mariadbPkg = pkgs.mariadb;
   secretName = val: "mysql-${val}-user-pass";
-  users = [ "cwcore" ];
+  users = [
+    "cwcore"
+    "cubicauth"
+  ];
 in
 {
   config.services.mysql = {

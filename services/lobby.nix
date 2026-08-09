@@ -15,6 +15,7 @@
     };
   };
 
+  # TODO: do we need to use nix-minecraft here
   config.services.minecraft-servers = {
     enable = true;
     eula = true;

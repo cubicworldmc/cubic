@@ -8,8 +8,9 @@
     ../../shared/default.nix
     ../../services/minecraft.nix
     ../../services/vanilla.nix
-    ../../services/proxy.nix
+    ../../services/proxy
     ../../services/lobby.nix
+    ../../services/limbo.nix
     ../../services/mariadb.nix
   ]
   ++ (if culib.isTest then [ ] else [ ./hardware-configuration.nix ]);

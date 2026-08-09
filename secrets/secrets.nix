@@ -18,5 +18,6 @@
       "cwcore-ssl-client-cert.age".publicKeys = [ cubic ];
       "cwcore-vanilla-list-key.age".publicKeys = [ cubic ];
       "mysql-cwcore-user-pass.age".publicKeys = [ cubic ];
+      "mysql-cubicauth-user-pass.age".publicKeys = [ cubic ];
     };
 }

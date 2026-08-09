@@ -12,4 +12,5 @@
   "cwcore-ssl-client-cert.age" = builtins.readFile ./cwcore-ssl-client-cert.pem;
   "cwcore-vanilla-list-key.age" = builtins.readFile ./cwcore-vanilla-list-key;
   "mysql-cwcore-user-pass.age" = "mysql-cwcore-user-pass-32132131231";
+  "mysql-cubicauth-user-pass.age" = "mysql-cubicauth-user-pass-39999";
 }

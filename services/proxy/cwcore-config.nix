@@ -1,0 +1,36 @@
+{ lib, culib, ... }:
+{
+  mysql = {
+    host = "@${lib.strings.toCamelCase (culib.serviceIpSecret "mysql-server-cwcore")}@:3306";
+    username = "cwcore";
+    password = "@mysqlCwcoreUserPass@";
+    database = "cwcore";
+    ssl = true;
+  };
+  ignored-servers = [ "limbo" ];
+  colors = {
+    "reputation > 4" = "#6495ED";
+    "reputation > 9" = "#7FFF00";
+    "reputation > 14" = "#B8860B";
+  };
+  premium-permission = "group.premium";
+  premium = {
+    custom-color = true;
+  };
+  http = {
+    port = 8080;
+    key-file = "key.pem";
+    cert-file = "cert.pem";
+    client-cert-file = "clcert.pem";
+  };
+  lists = {
+    vanilla = {
+      required-to-join = [ "vanilla" ];
+      acceptance = {
+        kind = "lc";
+        url = "https://google.com";
+        key-file = "vanilla.key";
+      };
+    };
+  };
+}

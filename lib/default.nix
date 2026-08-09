@@ -12,7 +12,9 @@ isTest: thisServer: rec {
       minecraft-server-vanilla = cubic;
       minecraft-server-proxy = cubic;
       minecraft-server-lobby = cubic;
+      minecraft-server-limbo = cubic;
       mysql-server-cwcore = cubic;
+      mysql-server-cubicauth = cubic;
     };
   serviceIpSecret = service: serverIpSecret serviceServers.${service};
 }

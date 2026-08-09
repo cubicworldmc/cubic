@@ -67,24 +67,25 @@
           ];
         });
       };
-      overlays.default = final: prev: self.packages.${prev.stdenv.hostPlatform.system};
+      overlays.default = final: prev: self.legacyPackages.${prev.stdenv.hostPlatform.system};
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = (
-          import nixpkgs {
-            inherit system overlays;
-          }
-        );
+        pkgs = import nixpkgs {
+          inherit system overlays;
+        };
       in
       {
-        packages = ((import pkgs/all-packages.nix) { inherit pkgs; }) // {
+        legacyPackages = ((import pkgs/all-packages.nix) { inherit pkgs; }) // {
           cu_update_secrets = pkgs.callPackage ./test/update_secrets.nix { };
+        };
+        packages = {
+          cu_update_secrets = self.legacyPackages.${system}.cu_update_secrets;
         };
         devShells.default = pkgs.mkShell {
           packages = [
-            self.packages.${system}.cu_update_secrets
+            self.legacyPackages.${system}.cu_update_secrets
           ];
 
           shellHook = ''
@@ -94,6 +95,7 @@
         checks.ultimate-test = (import ./test/test.nix) (
           deps
           // {
+            inherit pkgs;
             culib = culib true;
           }
         );
