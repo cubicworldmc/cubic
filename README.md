@@ -1,7 +1,7 @@
 This repository contains all configurations of **nix** machines used to serve cubicworld.
 
 # Minecraft eula
-By running certain parts of this configuration in which microsoft's software is used, you agree to their [eula](https://account.mojang.com/documents/minecraft_eula).
+By running certain parts of this configuration in which mojang's software is ran, you agree to their [eula](https://account.mojang.com/documents/minecraft_eula).
 
 # Machines
 - 'cubic' -- the main machine, hosts vanilla, proxy, lobby and limbo servers.
@@ -18,4 +18,10 @@ We use [`microvm`](https://github.com/microvm-nix/microvm.nix) to run virtual ma
 ```
 nix run .#nixosConfigurations.cubic-vm.config.microvm.declaredRunner
 ```
-A bridge is also set up for all vms, see `/test/vm.nix` to see how virtual machines are configured. When you enter virtual machine, you can login as `test` user whose password is `test`.
+A bridge is also set up for all vms (but you will have to set it up on the host machine yourself), see `/test/vm.nix` to see how virtual machines are configured. When you enter the virtual machine, you can login as `test` user whose password is `test`. `microvm` also expects that you have `qemu-bridge-helper` in `/run/wrappers/bin` (assuming you decided to use `qemu` also the default emulation software), so just create a temporary symbolic link via:
+```
+mkdir -p /run/wrappers/bin && ln -s /usr/lib/qemu/qemu-bridge-helper /run/wrappers/bin/qemu-bridge-helper
+```
+
+## Managing minecraft servers
+Minecraft servers are ran with [`nix-minecraft`](https://github.com/Infinidoge/nix-minecraft) in particular with our [`fork`](https://github.com/cubicworldmc/nix-minecraft) which makes some changes. All servers are available via `tmux` sockets and the sockets are located in `/run/minecraft/${server_name}.sock`, use `tmux -S ${socket} attach` to attach to it and `<Ctrl> + b + d` to detach.
