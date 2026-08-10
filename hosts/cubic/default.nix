@@ -12,6 +12,7 @@
     ../../services/lobby.nix
     ../../services/limbo.nix
     ../../services/mariadb.nix
+    ../../services/clickhouse.nix
   ]
   ++ (if culib.isTest then [ ] else [ ./hardware-configuration.nix ]);
 

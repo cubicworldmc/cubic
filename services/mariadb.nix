@@ -86,10 +86,12 @@ in
       ];
       before = [
         "minecraft-server-proxy.service" # FIXME: workaround for now
+        "minecraft-server-vanilla.service"
       ];
       wantedBy = [
         "multi-user.target"
         "minecraft-server-proxy.service"
+        "minecraft-server-vanilla.service"
       ];
       serviceConfig = {
         inherit ExecStart;

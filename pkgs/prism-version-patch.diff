@@ -1,0 +1,33 @@
+diff --git a/buildSrc/src/main/groovy/prism.java-conventions.gradle b/buildSrc/src/main/groovy/prism.java-conventions.gradle
+index 0384b718..c3a6800c 100644
+--- a/buildSrc/src/main/groovy/prism.java-conventions.gradle
++++ b/buildSrc/src/main/groovy/prism.java-conventions.gradle
+@@ -3,7 +3,8 @@ plugins {
+     id 'checkstyle'
+     id 'io.franzbecker.gradle-lombok'
+     id 'com.github.ben-manes.versions'
+-    id 'com.palantir.git-version'
++    // It is hard to access .git directory, so we have to set versions differently.
++    //id 'com.palantir.git-version'
+ }
+ 
+ group = project.property('group')
+@@ -49,10 +50,12 @@ lombok {
+     sha256 = ''
+ }
+ 
+-def details = versionDetails()
++//def details = versionDetails()
+ 
+ // Remove the "v" from a tag version
+-version = details.lastTag.substring(1) + (details.commitDistance > 0 ? '-dev' + details.commitDistance : '')
++//version = details.lastTag.substring(1) + (details.commitDistance > 0 ? '-dev' + details.commitDistance : '')
++version = System.getenv('__PRISM_VERSION') ?: "UNKNOWN__PRISM_VERSION"
+ 
+ // Use the full tag
+-project.ext.fullVersion = details.lastTag + (details.commitDistance > 0 ? '-dev' + details.commitDistance : '')
+\ No newline at end of file
++//project.ext.fullVersion = details.lastTag + (details.commitDistance > 0 ? '-dev' + details.commitDistance : '')
++project.ext.fullVersion = System.getenv('__PRISM_VERSION') ?: "UNKNOWN__PRISM_VERSION"
+\ No newline at end of file
+

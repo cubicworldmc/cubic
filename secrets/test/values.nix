@@ -14,4 +14,7 @@
   "mysql-cwcore-user-pass.age" = "mysql-cwcore-user-pass-32132131231";
   "mysql-cubicauth-user-pass.age" = "mysql-cubicauth-user-pass-39999";
   "mysql-luckperms-user-pass.age" = "mysql-luckperms-user-pass-9099";
+  "clickhouse-prism-user-pass.age" = "clickhouse-prism-user-pass-399";
+  "clickhouse-tcp-port.age" = "9000";
+  "clickhouse-http-port.age" = "8123";
 }

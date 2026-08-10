@@ -1,0 +1,14 @@
+diff --git a/gradle.properties b/gradle.properties
+index 1b54b346..7091bd12 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -30,7 +30,7 @@ deps.moonshine-standard=net.kyori.moonshine:moonshine-standard:2.0.4
+ deps.mysql=com.mysql:mysql-connector-j:9.2.0
+ deps.nbt-api=de.tr7zw:item-nbt-api-plugin:2.15.2-SNAPSHOT
+ deps.p6spy=p6spy:p6spy:3.9.1
+-deps.paper-api=io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT
++deps.paper-api=io.papermc.paper:paper-api:1.21.11-R0.1-20260511.115010-91
+ deps.postgres=org.postgresql:postgresql:42.7.5
+ deps.quartz=org.quartz-scheduler:quartz:2.5.0
+ deps.triumph-cmd-bukkit=dev.triumphteam:triumph-cmd-bukkit:2.0.0-ALPHA-13
+

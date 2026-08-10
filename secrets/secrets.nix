@@ -20,5 +20,8 @@
       "mysql-cwcore-user-pass.age".publicKeys = [ cubic ];
       "mysql-cubicauth-user-pass.age".publicKeys = [ cubic ];
       "mysql-luckperms-user-pass.age".publicKeys = [ cubic ];
+      "clickhouse-prism-user-pass.age".publicKeys = [ cubic ];
+      "clickhouse-http-port.age".publicKeys = [ cubic ];
+      "clickhouse-tcp-port.age".publicKeys = [ cubic ];
     };
 }
