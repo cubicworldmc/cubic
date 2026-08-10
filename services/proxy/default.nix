@@ -65,6 +65,7 @@ in
         "plugins/cwcore/vanilla.key" = secretPath "cwcore-vanilla-list-key";
         "plugins/luckperms.jar" = pkgs.plugins.luckperms.velocity;
         "plugins/cubicauth.jar" = pkgs.plugins.cubic-auth;
+        "plugins/tcpshield.jar" = pkgs.plugins.tcpshield;
       };
       files = {
         "plugins/cwcore/config.yml" = {
@@ -83,6 +84,16 @@ in
           format = pkgs.formats.yaml { };
           value = (import ./luckperms-config.nix) { inherit lib culib; } // {
             broadcast-received-log-entries = true;
+          };
+        };
+        "plugins/tcpshield/config.toml" = {
+          format = pkgs.formats.toml { };
+          value = {
+            only-allow-proxy-connections = culib.isProd;
+            timestamp-validation = "htpdate";
+            debug-mode = false;
+            enable-geyser-support = false;
+            pre-login-event = true;
           };
         };
       };
