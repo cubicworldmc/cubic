@@ -14,7 +14,10 @@
     ../../services/mariadb.nix
     ../../services/clickhouse.nix
   ]
-  ++ (if culib.isTest then [ ] else [ ./hardware-configuration.nix ]);
+  ++ (lib.mkOptional culib.isProd [
+    ./hardware-configuration.nix
+    ./amneziawg.nix
+  ]);
 
   boot.loader = lib.mkIf culib.isProd {
     grub = {
@@ -28,7 +31,6 @@
 
   networking = {
     hostName = "cubic";
-    networkmanager.enable = true;
     firewall = {
       enable = true;
       allowedTCPPorts = [
