@@ -59,6 +59,7 @@ with lib;
         server: conf:
         lib.nameValuePair "minecraft-server-${server}" {
           after = [ "NetworkManager.service" ];
+          wants = [ "NetworkManager.service" ];
         }
       );
   };

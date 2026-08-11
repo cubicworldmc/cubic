@@ -20,7 +20,7 @@
       # Enter the password, if the selected datasource uses authentication.
       password="@clickhousePrismUserPass@"
       # Configure the port.
-      port="@clickhouseTcpPort@"
+      port="@clickhouseHttpPort@"
       # Enter the username, if the selected datasource uses authentication.
       username=prism
       # Set the max number of records saved to storage per batch.
