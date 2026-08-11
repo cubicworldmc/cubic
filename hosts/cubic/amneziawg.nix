@@ -17,5 +17,5 @@
   };
 
   # please don't lock me out.
-  networking.firewall.checkReversePath = lib.mkForce false;
+  config.networking.firewall.checkReversePath = lib.mkForce false;
 }
