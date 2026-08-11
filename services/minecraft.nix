@@ -52,5 +52,14 @@ with lib;
           environmentFile = toString (config.services.env-files-setup."minecraft-server-${server}".path);
         }
       );
+
+    systemd.services =
+      config.services.cubic-minecraft-servers.servers
+      |> lib.mapAttrs' (
+        server: conf:
+        lib.nameValuePair "minecraft-server-${server}" {
+          after = [ "NetworkManager.service" ];
+        }
+      );
   };
 }

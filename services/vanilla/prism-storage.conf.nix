@@ -18,7 +18,7 @@
       # Configure the hostname.
       host="@${lib.strings.toCamelCase (culib.serviceIpSecret "clickhouse-server-prism")}@"
       # Enter the password, if the selected datasource uses authentication.
-      password="@mysqlPrismUserPass@"
+      password="@clickhousePrismUserPass@"
       # Configure the port.
       port="@clickhouseTcpPort@"
       # Enter the username, if the selected datasource uses authentication.

@@ -15,6 +15,7 @@
       "forwarding-secret"
       "mysql-luckperms-user-pass"
       "clickhouse-prism-user-pass"
+      "clickhouse-tcp-port"
       (culib.serviceIpSecret "mysql-server-luckperms")
       (culib.serviceIpSecret "clickhouse-server-prism")
     ];
