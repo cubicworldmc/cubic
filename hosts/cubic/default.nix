@@ -14,10 +14,15 @@
     ../../services/mariadb.nix
     ../../services/clickhouse.nix
   ]
-  ++ (lib.mkOptional culib.isProd [
-    ./hardware-configuration.nix
-    ./amneziawg.nix
-  ]);
+  ++ (
+    if culib.isProd then
+      [
+        ./hardware-configuration.nix
+        ./amneziawg.nix
+      ]
+    else
+      [ ]
+  );
 
   boot.loader = lib.mkIf culib.isProd {
     grub = {
