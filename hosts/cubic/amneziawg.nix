@@ -2,6 +2,7 @@
   config,
   culib,
   lib,
+  pkgs,
   ...
 }:
 {
@@ -16,6 +17,19 @@
     configFile = config.age.secrets.amneziawg-conf-cubic.path;
   };
 
-  # please don't lock me out.
+  config.networking.nftables.enable = true;
+
+  config.networking.nftable.ruleset = ''
+    table inet vpn {
+      chain output {
+        type route hook output priority mangle;
+        meta skuid {
+          1001,
+          1002
+        } meta mark set 0x100;
+      }  
+    }
+  '';
+
   config.networking.firewall.checkReversePath = lib.mkForce false;
 }

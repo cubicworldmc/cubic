@@ -35,8 +35,8 @@
   };
 
   networking = {
-    hostName = "cubic";
     networkmanager.enable = true;
+    hostName = "cubic";
     firewall = {
       enable = true;
       allowedTCPPorts = [
