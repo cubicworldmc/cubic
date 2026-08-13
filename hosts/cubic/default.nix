@@ -18,7 +18,6 @@
     if culib.isProd then
       [
         ./hardware-configuration.nix
-        ./amneziawg.nix
       ]
     else
       [ ]

@@ -23,6 +23,5 @@
       "clickhouse-prism-user-pass.age".publicKeys = [ cubic ];
       "clickhouse-http-port.age".publicKeys = [ cubic ];
       "clickhouse-tcp-port.age".publicKeys = [ cubic ];
-      "amneziawg-conf-cubic.age".publicKeys = [ cubic ];
     };
 }
