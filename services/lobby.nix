@@ -1,7 +1,6 @@
 {
   pkgs,
   config,
-  lib,
   ...
 }:
 {
@@ -15,9 +14,10 @@
       "forwarding-secret"
     ];
     additionalEnvVars = {
-      "CUBIC_LOBBY_WORLD_PATH" = "${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby";
+      "CUBIC_LOBBY_WORLD_PATH" = "./world/lobby";
       "CUBIC_LOBBY_SERVER_PORT" = "@cubicLobbyPort@";
       "CUBIC_LOBBY_SECRET_PATH" = config.age.secrets.minecraft-server-lobby-forwarding-secret.path;
+      "CUBIC_LOBBY_CONNECT_SERVER" = "vanilla";
     };
   };
 
@@ -32,10 +32,15 @@
       extraStopPre = ''
         kill "$1"
       '';
-      # extraStartPre = ''
-      #   ${pkgs.coreutils}/bin/mkdir -p ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
-      #   ${pkgs.coreutils}/bin/cp -r ${pkgs.cubic-lobby}/worlds/lobby ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
-      # '';
+      extraStartPre =
+        let
+          worldInSrv = "${config.services.minecraft-servers.dataDir}/lobby/world";
+        in
+        ''
+          ${pkgs.coreutils}/bin/mkdir -p ${worldInSrv}/lobby
+          ${pkgs.coreutils}/bin/cp -r --dereference ${pkgs.minecraftServers.cubic-lobby}/worlds/lobby ${worldInSrv} 
+          ${pkgs.coreutils}/bin/chmod +w -R ${worldInSrv}/lobby
+        '';
     };
   };
 }

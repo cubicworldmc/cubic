@@ -17,8 +17,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "cubicworldmc";
     repo = "cubic-lobby";
-    rev = "0627e1edf3fbe61bf371b8619ded7220fc771968";
-    sha256 = "dNAAddTun9njSVd4BaWsiGoY6kGk96f1dFgLer9ksbQ=";
+    rev = "720eeda942a8879398fa8378cb824f08413a0049";
+    sha256 = "y+rKacwzOuYbVO1BKqWM3m1371aYoOblXr7KX7KNRT8=";
   };
 
   __darwinAllowLocalNetworking = true;
@@ -37,7 +37,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   installPhase = ''
     mkdir -p $out/bin $out/lib/minecraft $out/worlds
     cp build/libs/cubic-lobby-1.0.0.jar $out/lib/minecraft/server.jar
-    cp -r $src/world/lobby $out/worlds/lobby
+    cp -r $src/world/lobby $out/worlds
     cat > $out/bin/lobby << EOF
     #!${bash}/bin/bash
     ${jre}/bin/java \$@ -jar $out/lib/minecraft/server.jar
