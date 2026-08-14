@@ -15,8 +15,8 @@ stdenvNoCC.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "cubicworldmc";
     repo = "cwcore";
-    rev = "bc5cbf119d9af7e98e4d4443c3ddf3ac8063f395";
-    sha256 = "7yyIEp5iji9FWJjz8B5V2ub4uI9Dr4KjdB+E6nRpW+A=";
+    rev = "d2a716804700b3c803650feedee49449626f2f6e";
+    sha256 = "HI0q3eykm1fUk6k9j+CVBoC/VO/9MQkIMY7aX8ZikrQ=";
   };
 
   __darwinAllowLocalNetworking = true;

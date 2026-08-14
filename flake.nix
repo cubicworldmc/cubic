@@ -10,6 +10,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     microvm.url = "github:microvm-nix/microvm.nix";
     microvm.inputs.nixpkgs.follows = "nixpkgs";
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
   outputs =
@@ -20,6 +21,7 @@
       nix-minecraft,
       agenix,
       microvm,
+      deploy-rs,
     }:
     let
       culib = (import ./lib);
@@ -34,6 +36,17 @@
         inherit nix-minecraft agenix microvm;
       };
 
+      pkgs-sys-agnostic =
+        system:
+        import nixpkgs {
+          inherit system overlays;
+          config.allowUnfreePredicate =
+            pkg:
+            builtins.elem ((import nixpkgs { inherit system; }).lib.getName pkg) [
+              "graalvm-oracle"
+            ];
+        };
+
       specialArgs =
         isTest: thisServer:
         deps
@@ -41,40 +54,54 @@
           culib = culib isTest thisServer;
         };
 
-      nixosConfigurationsModule =
-        { nixpkgs, ... }:
-        {
-          nixpkgs.overlays = overlays;
-        };
     in
     {
       nixosConfigurations = {
         cubic = nixpkgs.lib.nixosSystem ({
           modules = [
+            nixpkgs.nixosModules.readOnlyPkgs
             ./hosts/cubic
-            nixosConfigurationsModule
           ];
 
-          specialArgs = specialArgs false "cubic";
+          specialArgs = (specialArgs false "cubic") // {
+            pkgs = pkgs-sys-agnostic "x86_64-linux";
+          };
         });
         cubic-vm = nixpkgs.lib.nixosSystem ({
-          specialArgs = specialArgs true "cubic";
+          specialArgs = (specialArgs true "cubic") // {
+            pkgs = pkgs-sys-agnostic "x86_64-linux";
+          };
 
           modules = [
+            nixpkgs.nixosModules.readOnlyPkgs
             ./hosts/cubic
             ./test/vm.nix
-            nixosConfigurationsModule
           ];
         });
       };
+
       overlays.default = final: prev: self.legacyPackages.${prev.stdenv.hostPlatform.system};
+
+      deploy.nodes.cubic = {
+        # IT WON'T WORK UNLESS YOU DEFINE cubic OUT OF THIS FLAKE (for example in ssh's hosts)
+        hostname = "cubic";
+        profiles.system = {
+          sshUser = "jenya705";
+          # FIXME
+          interactiveSudo = true;
+          confirmTimeout = 120;
+          activationTimeout = 1200;
+          user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.cubic;
+        };
+      };
+
+      checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = import nixpkgs {
-          inherit system overlays;
-        };
+        pkgs = pkgs-sys-agnostic system;
       in
       {
         legacyPackages = ((import pkgs/all-packages.nix) { inherit pkgs; }) // {
@@ -92,14 +119,6 @@
             echo cu_update_secrets is now available!
           '';
         };
-        checks.ultimate-test = (import ./test/test.nix) (
-          deps
-          // {
-            inherit pkgs;
-            culib = culib true;
-          }
-        );
-
       }
     );
 }

@@ -17,11 +17,11 @@
   premium = {
     custom-color = true;
   };
-  http = {
-    port = 8080;
-    key-file = "key.pem";
-    cert-file = "cert.pem";
-    client-cert-file = "clcert.pem";
+  lists-tcp = {
+    host = "0.0.0.0";
+    port = 32000;
+    key = "lists-tcp.key";
+    message-timeout = 180000;
   };
   lists = {
     vanilla = {

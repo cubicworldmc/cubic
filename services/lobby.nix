@@ -1,4 +1,10 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+{
   imports = [
     ./minecraft.nix
   ];
@@ -21,12 +27,15 @@
     eula = true;
     servers.lobby = {
       enable = true;
-      package = pkgs.cubic-lobby;
+      package = pkgs.minecraftServers.cubic-lobby;
       jvmOpts = "-Xmx1G";
-      extraStartPre = ''
-        ${pkgs.coreutils}/bin/mkdir -p ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
-        ${pkgs.coreutils}/bin/cp -r ${pkgs.cubic-lobby}/worlds/lobby ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
+      extraStopPre = ''
+        kill "$1"
       '';
+      # extraStartPre = ''
+      #   ${pkgs.coreutils}/bin/mkdir -p ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
+      #   ${pkgs.coreutils}/bin/cp -r ${pkgs.cubic-lobby}/worlds/lobby ${config.services.minecraft-servers.dataDir}/lobby/worlds/lobby
+      # '';
     };
   };
 }

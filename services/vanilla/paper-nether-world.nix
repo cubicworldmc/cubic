@@ -1,0 +1,32 @@
+{ }:
+{
+  anticheat = {
+    anti-xray = {
+      enabled = true;
+      engine-mode = 3;
+      hidden-blocks = [
+        "air"
+        "ancient_debris"
+        "bone_block"
+        "glowstone"
+        "magma_block"
+        "nether_bricks"
+        "nether_gold_ore"
+        "nether_quartz_ore"
+        "polished_blackstone_bricks"
+      ];
+      lava-obscures = false;
+      max-block-height = 128;
+      replacement-blocks = [
+        "basalt"
+        "blackstone"
+        "gravel"
+        "netherrack"
+        "soul_sand"
+        "soul_soil"
+      ];
+      update-radius = 2;
+      use-permission = false;
+    };
+  };
+}

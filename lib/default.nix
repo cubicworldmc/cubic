@@ -16,6 +16,7 @@ isTest: thisServer: rec {
       mysql-server-cwcore = cubic;
       mysql-server-cubicauth = cubic;
       mysql-server-luckperms = cubic;
+      mysql-server-skinsrestorer = cubic;
       clickhouse-server-prism = cubic;
     };
   serviceIpSecret = service: serverIpSecret serviceServers.${service};

@@ -40,12 +40,11 @@
       enable = true;
       allowedTCPPorts = [
         22
-        8080
         25565
+        32000
       ];
       allowedUDPPorts = [
         22
-        8080
         25565
       ];
     };

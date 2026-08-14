@@ -25,18 +25,18 @@ in
       (culib.serviceIpSecret "mysql-server-luckperms")
       (culib.serviceIpSecret "mysql-server-cwcore")
       (culib.serviceIpSecret "mysql-server-cubicauth")
+      (culib.serviceIpSecret "mysql-server-skinsrestorer")
       "mysql-cwcore-user-pass"
       "mysql-cubicauth-user-pass"
       "mysql-luckperms-user-pass"
+      "mysql-skinsrestorer-user-pass"
     ];
   };
 
   config.age.secrets =
     [
       "forwarding-secret"
-      "cwcore-ssl-cert"
-      "cwcore-ssl-key"
-      "cwcore-ssl-client-cert"
+      "cwcore-lists-tcp-server-key"
       "cwcore-vanilla-list-key"
     ]
     |> builtins.map (val: {
@@ -56,16 +56,20 @@ in
     servers.proxy = {
       enable = true;
       package = pkgs.velocityServers.velocity;
+      jvmOpts =
+        if culib.isProd then
+          "-Xmx6G -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 -Dusing.aikars.flags=https://mcflags.emc.gs -Daikars.new.flags=true"
+        else
+          "-Xmx1G";
       symlinks = {
         "forwarding.secret" = secretPath "forwarding-secret";
         "plugins/cwcore.jar" = "${pkgs.plugins.cwcore}/velocity.jar";
-        "plugins/cwcore/cert.pem" = secretPath "cwcore-ssl-cert";
-        "plugins/cwcore/key.pem" = secretPath "cwcore-ssl-key";
-        "plugins/cwcore/clcert.pem" = secretPath "cwcore-ssl-client-cert";
+        "plugins/cwcore/lists-tcp.key" = secretPath "cwcore-lists-tcp-server-key";
         "plugins/cwcore/vanilla.key" = secretPath "cwcore-vanilla-list-key";
         "plugins/luckperms.jar" = pkgs.plugins.luckperms.velocity;
         "plugins/cubicauth.jar" = pkgs.plugins.cubic-auth;
         "plugins/tcpshield.jar" = pkgs.plugins.tcpshield;
+        "plugins/skinsrestorer.jar" = pkgs.plugins.skins-restorer;
       };
       files = {
         "plugins/cwcore/config.yml" = {
@@ -95,6 +99,10 @@ in
             enable-geyser-support = false;
             pre-login-event = true;
           };
+        };
+        "plugins/skinsrestorer/config.yml" = {
+          format = pkgs.formats.yaml { };
+          value = (import ./skins-restorer-config.nix) { inherit lib culib; };
         };
       };
     };

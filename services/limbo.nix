@@ -20,7 +20,7 @@
     eula = true;
     servers.limbo = {
       enable = true;
-      package = pkgs.nano-limbo;
+      package = pkgs.minecraftServers.nano-limbo;
       jvmOpts = "-Xmx1G";
       files = {
         "settings.yml" = {

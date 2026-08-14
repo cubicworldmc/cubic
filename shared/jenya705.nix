@@ -34,4 +34,8 @@
       AllowUsers = [ "jenya705" ];
     };
   };
+
+  nix.settings.trusted-users = [
+    "jenya705"
+  ];
 }

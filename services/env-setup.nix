@@ -79,6 +79,7 @@ with lib;
               )
               ++ (conf.additionalEnvVars |> mapAttrsToList (name: var: "${name}=${var}"))
             )
+            |> lists.uniqueStrings
             |> builtins.concatStringsSep "\n";
           envFilePlaceholder = pkgs.writeText "${name}-env-file-placeholder" envFilePlaceholderText;
         in
@@ -86,6 +87,7 @@ with lib;
           "${name}-env-file-setup" = mkIf ("" != lib.strings.trim envFilePlaceholderText) {
             enable = true;
             wantedBy = conf.wantedBy;
+            before = conf.wantedBy;
             after = [ "run-agenix.d.mount" ];
             description = "${name} environment file setup";
             serviceConfig = {
@@ -112,6 +114,14 @@ with lib;
                       '')
                     )
                     |> builtins.concatStringsSep "\n";
+                }
+              );
+              ExecStop = lib.getExe (
+                pkgs.writeShellApplication {
+                  name = "${name}-env-file-setup-cleanup-script";
+                  text = ''
+                    ${pkgs.coreutils}/bin/rm "${conf.path}"
+                  '';
                 }
               );
             };

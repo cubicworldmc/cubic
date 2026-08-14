@@ -12,14 +12,13 @@
       "cubic-limbo-port.age".publicKeys = [ cubic ];
       "cubic-proxy-port.age".publicKeys = [ cubic ];
       "forwarding-secret.age".publicKeys = [ cubic ];
-      "cwcore-ssl-key.age".publicKeys = [ cubic ];
-      "cwcore-ssl-cert.age".publicKeys = [ cubic ];
-      "cwcore-ssl-client-key.age".publicKeys = [ cubic ];
-      "cwcore-ssl-client-cert.age".publicKeys = [ cubic ];
+      "cwcore-lists-tcp-server-port.age".publicKeys = [ cubic ];
+      "cwcore-lists-tcp-server-key.age".publicKeys = [ cubic ];
       "cwcore-vanilla-list-key.age".publicKeys = [ cubic ];
       "mysql-cwcore-user-pass.age".publicKeys = [ cubic ];
       "mysql-cubicauth-user-pass.age".publicKeys = [ cubic ];
       "mysql-luckperms-user-pass.age".publicKeys = [ cubic ];
+      "mysql-skinsrestorer-user-pass.age".publicKeys = [ cubic ];
       "clickhouse-prism-user-pass.age".publicKeys = [ cubic ];
       "clickhouse-http-port.age".publicKeys = [ cubic ];
       "clickhouse-tcp-port.age".publicKeys = [ cubic ];

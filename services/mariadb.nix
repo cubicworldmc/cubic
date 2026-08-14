@@ -12,6 +12,7 @@ let
     "cwcore"
     "cubicauth"
     "luckperms"
+    "skinsrestorer"
   ];
 in
 {

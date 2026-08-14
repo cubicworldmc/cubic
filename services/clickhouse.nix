@@ -17,6 +17,7 @@ in
     ageFiles = [
       "clickhouse-tcp-port"
       "clickhouse-http-port"
+      "clickhouse-prism-user-pass"
     ];
   };
 
@@ -52,6 +53,9 @@ in
 
   config.systemd.services.clickhouse = {
     wants = [
+      "clickhouse-env-file-setup.service"
+    ];
+    after = [
       "clickhouse-env-file-setup.service"
     ];
     before = [
