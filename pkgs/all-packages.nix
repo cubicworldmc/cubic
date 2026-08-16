@@ -12,6 +12,8 @@ in
     nbt-api = pkgs.callPackage ./nbt-api.nix { };
     tcpshield = pkgs.callPackage ./tcpshield.nix { };
     skins-restorer = pkgs.callPackage ./skins-restorer.nix { };
+    minecraft-script-hooks = pkgs.callPackage ./minecraft-script-hooks.nix { inherit gradle; };
+    portal-end-blocker = pkgs.callPackage ./portal-end-blocker.nix { inherit gradle; };
   };
   minecraftServers = {
     cubic-lobby = pkgs.callPackage ./cubic-lobby.nix { inherit gradle jre; };

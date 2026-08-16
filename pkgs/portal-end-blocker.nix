@@ -4,9 +4,9 @@
   stdenvNoCC,
   fetchFromGitHub,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
-  name = "cwcore";
-  version = "1.0.0";
+stdenvNoCC.mkDerivation (finalAttrs: rec {
+  name = "portal-end-blocker";
+  version = "0.0-SNAPSHOT";
 
   nativeBuildInputs = [
     gradle
@@ -14,32 +14,30 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   src = fetchFromGitHub {
     owner = "cubicworldmc";
-    repo = "cwcore";
-    rev = "7a12794674765bef642bba3dfc82f77471939aaa";
-    sha256 = "IQUHpTdhoovBooBAS1O3ENB4C48b3xk3QXkc28UgG7I=";
+    repo = "portal-end-blocker";
+    rev = "56339499895bdcb2b37a59cd9dbbf34b6337f5c7";
+    sha256 = "L2uJbMSyNkD/hTEEs37qk372u7tFh3gFBaFsZLmfMK4=";
   };
 
   __darwinAllowLocalNetworking = true;
 
   mitmCache = gradle.fetchDeps {
     pkg = finalAttrs.finalPackage;
-    data = ./cwcore-deps.json;
+    data = ./portal-end-blocker-deps.json;
   };
 
   gradleFlags = [ "-Dfile.encoding=utf-8" ];
 
-  gradleBuildTask = "shadowJar";
+  gradleBuildTask = "build";
 
   doCheck = true;
 
   installPhase = ''
-    mkdir $out
-    cp core-bukkit/build/libs/core-bukkit-all.jar $out/bukkit.jar
-    cp core-velocity/build/libs/core-velocity-all.jar $out/velocity.jar
+    cp build/libs/portal-end-blocker-${version}.jar $out
   '';
 
   meta = with lib; {
-    license = licenses.agpl3Only;
+    license = licenses.gpl3Only;
     sourceProvenance = with sourceTypes; [
       fromSource
       binaryBytecode

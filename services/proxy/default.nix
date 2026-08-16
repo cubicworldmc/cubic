@@ -95,7 +95,7 @@ in
           value = {
             only-allow-proxy-connections = culib.isProd;
             timestamp-validation = "htpdate";
-            debug-mode = false;
+            debug-mode = culib.isTest;
             enable-geyser-support = false;
             pre-login-event = true;
           };

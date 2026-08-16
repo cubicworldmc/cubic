@@ -1,5 +1,6 @@
 { }:
 {
+  _version = 31;
   anticheat = {
     anti-xray = {
       enabled = true;

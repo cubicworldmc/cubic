@@ -4,9 +4,9 @@
   stdenvNoCC,
   fetchFromGitHub,
 }:
-stdenvNoCC.mkDerivation (finalAttrs: {
-  name = "cwcore";
-  version = "1.0.0";
+stdenvNoCC.mkDerivation (finalAttrs: rec {
+  name = "minecraft-script-hooks";
+  version = "0.0-SNAPSHOT";
 
   nativeBuildInputs = [
     gradle
@@ -14,32 +14,30 @@ stdenvNoCC.mkDerivation (finalAttrs: {
 
   src = fetchFromGitHub {
     owner = "cubicworldmc";
-    repo = "cwcore";
-    rev = "7a12794674765bef642bba3dfc82f77471939aaa";
-    sha256 = "IQUHpTdhoovBooBAS1O3ENB4C48b3xk3QXkc28UgG7I=";
+    repo = "minecraft-script-hooks";
+    rev = "07d03c8df99f178d2ba885c521ae576d6598c353";
+    sha256 = "3PbbpBTUxkfbP5hshPxLpK9/pfsi5Kxbj8s7UVxGbL4=";
   };
 
   __darwinAllowLocalNetworking = true;
 
   mitmCache = gradle.fetchDeps {
     pkg = finalAttrs.finalPackage;
-    data = ./cwcore-deps.json;
+    data = ./minecraft-script-hooks-deps.json;
   };
 
   gradleFlags = [ "-Dfile.encoding=utf-8" ];
 
-  gradleBuildTask = "shadowJar";
+  gradleBuildTask = "build";
 
   doCheck = true;
 
   installPhase = ''
-    mkdir $out
-    cp core-bukkit/build/libs/core-bukkit-all.jar $out/bukkit.jar
-    cp core-velocity/build/libs/core-velocity-all.jar $out/velocity.jar
+    cp build/libs/minecraft-script-hooks-${version}.jar $out
   '';
 
   meta = with lib; {
-    license = licenses.agpl3Only;
+    license = licenses.gpl3Only;
     sourceProvenance = with sourceTypes; [
       fromSource
       binaryBytecode

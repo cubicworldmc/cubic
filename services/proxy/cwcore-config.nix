@@ -28,7 +28,7 @@
       required-to-join = [ "vanilla" ];
       acceptance = {
         kind = "lc";
-        url = "https://google.com";
+        url = "https://discord.gg/c4c7Ms5";
         key-file = "vanilla.key";
       };
     };
