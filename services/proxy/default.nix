@@ -70,6 +70,10 @@ in
         "plugins/cubicauth.jar" = pkgs.plugins.cubic-auth;
         "plugins/tcpshield.jar" = pkgs.plugins.tcpshield;
         "plugins/skinsrestorer.jar" = pkgs.plugins.skins-restorer;
+        "server-icon.png" = builtins.path {
+          name = "server-icon";
+          path = ../../assets/icons/cubicworldsummer64.png;
+        };
       };
       files = {
         "plugins/cwcore/config.yml" = {

@@ -2,7 +2,7 @@
 {
   config-version = "2.8";
   bind = "0.0.0.0:@cubicProxyPort@";
-  motd = "cubic";
+  motd = "<aqua>CubicWorld <gray>- <gold>Vanilla 26.2";
   show-max-players = 500;
   online-mode = false;
   force-key-authentication = true;

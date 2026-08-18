@@ -1,4 +1,4 @@
-This repository contains all configurations of **nix** machines used to serve cubicworld.
+This repository contains (almost) all configurations of **nix** machines used to serve cubicworld.
 
 # Minecraft eula
 By running certain parts of this configuration in which mojang's software is ran, you agree to their [eula](https://account.mojang.com/documents/minecraft_eula).
